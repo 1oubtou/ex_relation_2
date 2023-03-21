@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('conducteur_id')->constrained();
             $table->foreignId('camion_id')->constrained();
             $table->string('statut');
-            $table->string('complete');
             $table->timestamps();
         });
     }

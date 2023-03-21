@@ -16,7 +16,7 @@
                             <span class="required">Conducteurs</span>
                         </label>
                         <div class="w-100">
-                            <select class="form-select form-select-solid" name="conducteur_id" required>
+                            <select data-control="select2" class="form-select form-select-solid" name="conducteur_id" required>
                                 <option hidden>Select Conducteurs...</option>
                                 @foreach ( $conducteurs as $conducteur )
                                     <option value="{{ $conducteur->id }}" >{{ $conducteur->nom }}</option>
@@ -34,7 +34,7 @@
                             <span class="required">Camions</span>
                         </label>
                         <div class="w-100">
-                            <select class="form-select form-select-solid" name="camion_id" required>
+                            <select data-control="select2" class="form-select form-select-solid" name="camion_id" required>
                                 <option hidden>Select Camions...</option>
                                 @foreach ( $camion as $camions )
                                     <option value="{{ $camions->id }}" >{{ $camions->number }}</option>
@@ -52,7 +52,7 @@
                             <span class="required">Destinations</span>
                         </label>
                         <div class="w-100">
-                            <select class="form-select form-select-solid" name="destination_id" required>
+                            <select data-control="select2" class="form-select form-select-solid" name="destination_id" required>
                                 <option hidden>Select Destinations...</option>
                                 @foreach ( $destinations as $destination )
                                     <option value="{{ $destination->id }}" >{{ $destination->ville }}</option>

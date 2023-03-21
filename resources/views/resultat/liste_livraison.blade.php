@@ -23,6 +23,7 @@
                             <th class="min-w-100px">Conducteur</th>
                             <th class="min-w-100px">N° Camion</th>
                             <th class="min-w-100px">Destination</th>
+                            <th class="min-w-100px">Statut</th>
                             <th class="min-w-100px">Actions</th>
                         </tr>
                         <!--end::Table row-->
@@ -45,6 +46,23 @@
                                     <a href="#" class="text-gray-800 text-hover-primary fs-5 fw-bold">{{ $dashboards->destination->ville }}</a>
                                 </td>
                                 <td>
+                                    @switch( $dashboards->statut )
+                                        @case('sorti')
+                                            <span class="badge badge-warning">Livraison</span>
+                                            @break
+                                        @case('annule')
+                                            <span class="badge badge-danger">Annule</span>
+                                            @break
+                                        @case('complete')
+                                            <span class="badge badge-success">Complete</span>
+                                            @break
+                                    @endswitch
+                                    
+                                    
+                                    {{--  --}}
+                                </td>
+                                <td>
+                                    
                                     <a href="#" class="btn btn-sm btn-light btn-active-light-primary" data-kt-menu-trigger="hover" data-kt-menu-placement="bottom-end">Actions
                                         <span class="svg-icon svg-icon-5 m-0">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

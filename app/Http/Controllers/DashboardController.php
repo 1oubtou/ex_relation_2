@@ -7,21 +7,31 @@ use App\Models\Conducteurs;
 use App\Models\Dashboard;
 use App\Models\Destinations;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     
     public function index()
     {
-        $camion = Camions::all();
-        $destinations = Destinations::all();
-        $conducteurs = Conducteurs::all();
-        $dashboard = Dashboard::where('statut' , 'voyageur')->Where('complete', 'no')->paginate(5);
+        $dashboards = Dashboard::select('camion_id', 'conducteur_id')->where('statut', 'sorti')->get();
+        $camions = Camions::whereNotIn('id', $dashboards->pluck('camion_id'))->get();
+        $conducteurs = Conducteurs::whereNotIn('id', $dashboards->pluck('conducteur_id'))->get();
+        // dd($conducteurs,$dashboards);
 
+
+        // $dashboards = Dashboard::select('camion_id')->where('statut' , 'sorti')->get();
+        // $conducteur = Dashboard::select('conducteur_id')->where('statut' , 'sorti')->get();
+        // $camions = Camions::whereNotIn('id' , $dashboards )->get();
+        // $conducteurs = Conducteurs::whereNotIn('id' , $conducteur )->get();
+        
+        $destinations = Destinations::all();
+        $dashboard = Dashboard::paginate(8);
+        
         $total_camion = Camions::count();
         $total_conducteurs = Conducteurs::count();
         return view('resultat.dashboard', [
-            'camion' => $camion,
+            'camion' => $camions,
             'conducteurs' => $conducteurs,
             'destinations' => $destinations,
             'dashboard' => $dashboard,
@@ -43,8 +53,7 @@ class DashboardController extends Controller
             'camion_id' =>$request->camion_id,
             'conducteur_id' =>$request->conducteur_id,
             'destination_id' =>$request->destination_id,
-            'statut' => 'voyageur',
-            'complete' => 'no',
+            'statut' => 'sorti',
         ]);
         return redirect()->route('dashboard_index');
     }
@@ -60,7 +69,7 @@ class DashboardController extends Controller
     public function annule($id)
     {
         $dashboard = Dashboard::find($id);
-        $dashboard->statut = '-';
+        $dashboard->statut = 'annule';
         $dashboard->save();
         return redirect()->route('dashboard_index');
     }
@@ -68,7 +77,7 @@ class DashboardController extends Controller
     public function complete($id)
     {
         $dashboard = Dashboard::find($id);
-        $dashboard->complete = 'yes';
+        $dashboard->statut = 'complete';
         $dashboard->save();
         return redirect()->route('dashboard_index');
     }
